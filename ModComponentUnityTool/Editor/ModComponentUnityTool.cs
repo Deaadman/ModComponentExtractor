@@ -1,6 +1,6 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
-using System;
+﻿using System;
 using System.IO;
+using System.IO.Compression;
 using UnityEditor;
 
 namespace Deadman
@@ -44,12 +44,7 @@ namespace Deadman
 
             string outputPath = $"{Path.GetDirectoryName(path)}/{name}.modcomponent";
 
-            FastZip fastZip = new()
-            {
-                CompressionLevel = (ICSharpCode.SharpZipLib.Zip.Compression.Deflater.CompressionLevel)9
-            };
-
-            fastZip.CreateZip(outputPath, path, true, "");
+            ZipFile.CreateFromDirectory(path, outputPath, CompressionLevel.Optimal, false);
         }
     }
 }
