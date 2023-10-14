@@ -49,7 +49,7 @@ namespace Deadman
         {
             string name = Path.GetFileName(path);
 
-            if (name == "blueprints" || name == "auto-mapped" || name == "gear-spawns")
+            if (name == "auto-mapped" || name == "blueprints" || name == "bundle" || name == "gear-spawns" ||  name == "localizations")
                 throw new Exception($"{name} cannot be used as the name of an item pack. Place this folder into a new empty folder, and use that folder instead");
 
             string outputPath = $"{Path.GetDirectoryName(path)}/{name}.modcomponent";
