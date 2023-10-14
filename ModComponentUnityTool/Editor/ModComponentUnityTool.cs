@@ -7,6 +7,8 @@ namespace Deadman
 {
     public static class ModComponentUnityTool
     {
+        public const string Version = "v1.0.0";
+
         [MenuItem("Assets/Create .ModComponent File", false, 100)]
         public static void ProcessModComponentFolder()
         {
@@ -24,15 +26,23 @@ namespace Deadman
                 return;
             }
 
+            var message = $"<b>ModComponentUnityTool {Version}</b>\n";
+
             try
             {
                 CreateModComponentFile(path);
-                UnityEngine.Debug.Log(".ModComponent File Successfully Created!");
+
+                message += $"<b><color=green>.ModComponent File Successfully Created!</color></b>\n";
+                message += "Select this log for more info if needed.\n";
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogError(ex.ToString());
+                message += $"<b><color=red>Error:</color></b> {ex.Message}\n";
+                message += "Select this log for detailed error info.\n";
+                message += $"<color=red>{ex}</color>\n";
             }
+
+            UnityEngine.Debug.Log($"{message}");
         }
 
         private static void CreateModComponentFile(string path)
