@@ -5,8 +5,6 @@
 
 <p align="center">
     <a href="https://github.com/Deaadman/ModComponentUnityTool/releases/latest"><img src="https://img.shields.io/github/v/release/Deaadman/ModComponentUnityTool?label=latest&style=for-the-badge"></a>
-	<a href="https://github.com/Deaadman/ModComponentUnityTool/releases"><img src="https://img.shields.io/github/downloads/Deaadman/ModComponentUnityTool/total.svg?style=for-the-badge"></a>
-	<a href="https://github.com/Deaadman/ModComponentUnityTool/releases"><img src="https://img.shields.io/github/downloads/Deaadman/ModComponentUnityTool/latest/total.svg?style=for-the-badge"></a>
     <a href="https://github.com/Deaadman/ModComponentUnityTool/issues"><img src="https://img.shields.io/github/issues/Deaadman/ModComponentUnityTool?style=for-the-badge"></a>
 
 ---
