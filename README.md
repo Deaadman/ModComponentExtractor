@@ -22,6 +22,12 @@ The Mod Component Unity Tool (MCUT) is a Unity Editor package designed to enable
 
 ---
 
+## USEFUL LINKS:
+
+- [**Patch Notes**](https://github.com/Deaadman/ModComponentUnityTool/blob/release/Information/PatchNotes.md): Explore existing updates and stay informed about upcoming changes.
+
+---
+
 ## INSTALLATION:
 
 1. Open the **Unity Editor (2021.3.16f1)**.
