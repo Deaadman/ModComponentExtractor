@@ -1,7 +1,7 @@
 {
-  "name": "com.deadman.modcomponentcompiler",
+  "name": "com.deadman.modcomponentunitytool",
   "version": "1.0.0",
-  "displayName": "Mod Component Compiler",
+  "displayName": "Mod Component Unity Tool",
   "description": "This is an example package",
   "unity": "2021.3",
   "unityRelease": "16f1",
