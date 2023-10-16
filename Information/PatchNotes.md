@@ -18,13 +18,15 @@ Please understand that the ideas and features mentioned under "X.X.X" are not se
 
 >**Note:** A bundle of ideas, with no guarantee of implementation.
 
-- Functionality
-	- Automated testing? Can detect any errors with the `.json` files before exporting to reduce time wastage.
+- Features
+	- `.json` syntax checking before packing it into a `.modcomponent` file.
+	- `.json` error checking, see if there is a why to check if it'll though errors with ModComponent.
+		- It's a long shot, but will definitely streamline the ModComponent creation process.
 - UI
-    - Make this an entire tab instead of a button, will give the developer access to more options - and I cleaner UI.
-	- These options may include...
-		- The output directory of the `.modcomponent` file.
-		- Which compression method they would like to use for the file.
+    - Instead of a button, convert it into it's own tab.
+		- Include an option to set an output directory, or to use the default
+			- The default is the root folder.
+		- Which compression method they would like to use for the file. `Optimal`, `Fastest`, `No Compression` and `Smallest`.
 
 ---
 
