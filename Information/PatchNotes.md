@@ -10,6 +10,7 @@ Please understand that the ideas and features mentioned under "X.X.X" are not se
 | Versions: |
 | - |
 | [vX.X.X](#vxxx) |
+| [v1.0.1](#v101) |
 | [v1.0.0 - Initial Launch](#v100---initial-launch) |
 
 ---
@@ -20,13 +21,30 @@ Please understand that the ideas and features mentioned under "X.X.X" are not se
 
 - Features
 	- `.json` syntax checking before packing it into a `.modcomponent` file.
-	- `.json` error checking, see if there is a why to check if it'll though errors with ModComponent.
+	- `.json` error checking, see if there is a way to check if it'll throw errors with ModComponent.
 		- It's a long shot, but will definitely streamline the ModComponent creation process.
+	- Streamline the .bundle creation process, as an addressable needs to be created first and then dropped into the folder you are turning into a `.modcomponent`.
 - UI
-    - Instead of a button, convert it into it's own tab.
+    - Instead of a button, convert it into its own tab.
 		- Include an option to set an output directory, or to use the default
 			- The default is the root folder.
-		- Which compression method they would like to use for the file. `Optimal`, `Fastest`, `No Compression` and `Smallest`.
+		- Which compression method they would like to use for the file. `Optimal`, `Fastest`, `No Compression`, and `Smallest`.
+
+---
+
+## v1.0.1:
+
+> Released on the **25th of October 2023**.
+
+### Highlights / Key Changes:
+- Fixes the issue of causing errors when building addressables.
+
+### Added:
+- Added `"Editor"` within the `"includePlatforms": []` in the `.asmdef` file to prevent the addressables trying to build this script.
+
+### Fixed:
+- Fixed issue [**#1**](https://github.com/Deaadman/ModComponentUnityTool/issues/1).
+	- This issue was preventing addressables from being built with this package installed.
 
 ---
 
@@ -49,9 +67,9 @@ Please understand that the ideas and features mentioned under "X.X.X" are not se
 ### Changed / Updated:
 - Changed all `Console.WriteLine`'s to `EditorUtility.DisplayDialog` and `Debug.Log`'s.
 - Changed the `CompressionLevel` to **Optimal** across the board.
-- Changed a lot of naming convensions, removed **Extractor** and changed to **Unity Tool**.
+- Changed a lot of naming conventions, removed **Extractor** and changed to **Unity Tool**.
 <br></br>
-- Updated the restrictions of the folder names which can be compiled from just `auto-mapped`, `blueprints` and `gear-spawns` to also now include `bundle` and `localizations`.
+- Updated the restrictions of the folder names which can be compiled from just `auto-mapped`, `blueprints`, and `gear-spawns` to also now include `bundle` and `localizations`.
 
 ### Removed:
 - Removed the [**`SharpZipLib`**](https://github.com/icsharpcode/SharpZipLib/releases) dependency.

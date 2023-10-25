@@ -7,7 +7,7 @@ namespace Deadman
 {
     public static class ModComponentUnityTool
     {
-        public const string Version = "v1.0.0";
+        public const string Version = "v1.0.1";
 
         [MenuItem("Assets/Create .ModComponent File", false, 100)]
         public static void ProcessModComponentFolder()

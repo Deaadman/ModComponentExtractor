@@ -1,6 +1,6 @@
 {
   "name": "com.deadman.modcomponentunitytool",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "Mod Component Unity Tool",
   "description": "This Mod Component Unity Tool (MCUT) is a Unity Editor package designed to enable developers to effortlessly compile their .modcomponent files directly within the editor.",
   "unity": "2021.3",
