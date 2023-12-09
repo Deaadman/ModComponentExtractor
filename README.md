@@ -14,9 +14,10 @@
 The Mod Component Unity Tool (MCUT) is a Unity Editor package designed to enable developers to effortlessly compile their `.modcomponent` files directly within the editor.
 
 ### Features:
--  **Unity Package:** Now built into the Unity Editor to save time.
--  **Advanced Logging**: Easy to read messages in Unity's console.
--  **Optimized Codebase**: Updated to ensure efficient performance.
+- **Custom UI**: New built-in UI for easier creation.
+- **Improved Features**: Can now create multiple at once, with a set output path.
+- **Optimized Codebase**: Updated to ensure efficient performance.
+- **Unity Package:** Now built into the Unity Editor to save time.
 
 ---
 
