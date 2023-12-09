@@ -7,22 +7,16 @@ namespace Deadman
 {
     public static class ModComponentUnityTool
     {
-        public const string Version = "v1.0.1";
+        public const string Version = "v1.1.0-DeveloperBuild";
 
         [MenuItem("Assets/Create .ModComponent File", false, 100)]
         public static void ProcessModComponentFolder()
         {
             string path = AssetDatabase.GetAssetPath(Selection.activeObject);
 
-            if (string.IsNullOrEmpty(path))
+            if (!IsValidPath(path))
             {
-                EditorUtility.DisplayDialog("Error", "No directory selected.", "OK");
-                return;
-            }
-
-            if (!AssetDatabase.IsValidFolder(path))
-            {
-                EditorUtility.DisplayDialog("Error", "Please select a valid directory.", "OK");
+                DisplayErrorMessage("The selected path is invalid.");
                 return;
             }
 
@@ -30,9 +24,9 @@ namespace Deadman
 
             try
             {
-                CreateModComponentFile(path);
+                string outputPath = CreateModComponentFile(path);
 
-                message += $"<b><color=green>.ModComponent File Successfully Created!</color></b>\n";
+                message += $"<b><color=green>.ModComponent File Successfully Created at {outputPath}!</color></b>\n";
                 message += "Select this log for more info if needed.\n";
             }
             catch (Exception ex)
@@ -45,16 +39,30 @@ namespace Deadman
             UnityEngine.Debug.Log($"{message}");
         }
 
-        private static void CreateModComponentFile(string path)
+        private static string CreateModComponentFile(string path)
         {
             string name = Path.GetFileName(path);
 
-            if (name == "auto-mapped" || name == "blueprints" || name == "bundle" || name == "gear-spawns" ||  name == "localizations")
+            if (name == "auto-mapped" || name == "blueprints" || name == "bundle" || name == "gear-spawns" || name == "localizations")
+            {
                 throw new Exception($"{name} cannot be used as the name of an item pack. Place this folder into a new empty folder, and use that folder instead");
+            }
 
             string outputPath = $"{Path.GetDirectoryName(path)}/{name}.modcomponent";
 
             ZipFile.CreateFromDirectory(path, outputPath, CompressionLevel.Optimal, false);
+
+            return outputPath;
+        }
+
+        private static void DisplayErrorMessage(string message)
+        {
+            EditorUtility.DisplayDialog("Error", message, "OK");
+        }
+
+        private static bool IsValidPath(string path)
+        {
+            return !string.IsNullOrEmpty(path) && path.IndexOfAny(Path.GetInvalidPathChars()) == -1;
         }
     }
 }
