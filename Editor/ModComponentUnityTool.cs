@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using UnityEditor;
@@ -11,6 +12,7 @@ namespace Deadman
         public const string Version = "v1.1.0-DeveloperBuild";
         private static string selectedOutputPath = "";
         private static System.IO.Compression.CompressionLevel selectedCompressionLevel = System.IO.Compression.CompressionLevel.Optimal;
+        private static readonly List<string> droppedFolders = new();
 
         [MenuItem("MCUT/Tool Interface")]
         public static void ShowWindow()
@@ -44,6 +46,37 @@ namespace Deadman
 
             GUILayout.Space(10);
 
+            float labelHeight = 20;
+            float neededHeight = labelHeight * droppedFolders.Count;
+            float dragAreaHeight = Mathf.Max(50, neededHeight);
+
+            var dragArea = GUILayoutUtility.GetRect(0f, dragAreaHeight, GUILayout.ExpandWidth(true));
+            GUI.Box(dragArea, "");
+
+            if (droppedFolders.Count == 0)
+            {
+                GUI.Label(new Rect(dragArea.x, dragArea.y + (dragArea.height - labelHeight) / 2, dragArea.width, labelHeight), "Drag & Drop Folders Here", sectionTitleStyle);
+            }
+            else
+            {
+                for (int i = 0; i < droppedFolders.Count; i++)
+                {
+                    string folderName = Path.GetFileName(droppedFolders[i]);
+                    GUI.Label(new Rect(dragArea.x, dragArea.y + labelHeight * i, dragArea.width, labelHeight), folderName, sectionTitleStyle);
+                }
+            }
+
+            HandleDragAndDrop(dragArea);
+
+            GUILayout.BeginVertical("Box");
+            if (GUILayout.Button("Clear Folders", GUILayout.Height(20)))
+            {
+                droppedFolders.Clear();
+            }
+            GUILayout.EndVertical();
+
+            GUILayout.FlexibleSpace();
+
             GUILayout.BeginVertical("Box");
             GUILayout.Label("Configuration", sectionTitleStyle);
 
@@ -60,11 +93,11 @@ namespace Deadman
             {
                 EditorGUILayout.LabelField("Selected Path: ", selectedOutputPath);
             }
+
             GUILayout.EndVertical();
+            GUILayout.Space(10);
 
-            GUILayout.FlexibleSpace();
-
-            if (GUILayout.Button("Create .ModComponent File(s)", GUILayout.Height(40)))
+            if (GUILayout.Button("Create .ModComponent(s)", GUILayout.Height(40)))
             {
                 ProcessModComponentFolders();
             }
@@ -79,26 +112,63 @@ namespace Deadman
             }
         }
 
+        private void HandleDragAndDrop(Rect dropArea)
+        {
+            var currentEvent = Event.current;
+            var eventType = currentEvent.type;
+
+            if (!dropArea.Contains(currentEvent.mousePosition))
+                return;
+
+            switch (eventType)
+            {
+                case EventType.DragUpdated:
+                case EventType.DragPerform:
+                    DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+
+                    if (eventType == EventType.DragPerform)
+                    {
+                        DragAndDrop.AcceptDrag();
+
+                        foreach (var draggedObject in DragAndDrop.objectReferences)
+                        {
+                            var path = AssetDatabase.GetAssetPath(draggedObject);
+                            if (Directory.Exists(path))
+                            {
+                                if (droppedFolders.Contains(path))
+                                {
+                                    EditorUtility.DisplayDialog("Folder Already Added", $"The folder '{Path.GetFileName(path)}' has already been added.", "OK");
+                                }
+                                else
+                                {
+                                    droppedFolders.Add(path);
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
         public static void ProcessModComponentFolders()
         {
-            UnityEngine.Object[] selectedObjects = Selection.objects;
-
-            if (selectedObjects.Length == 0)
+            if (string.IsNullOrEmpty(selectedOutputPath))
             {
-                DisplayErrorMessage("No folders selected.");
+                DisplayErrorMessage("No output directory selected. Please choose an output folder.");
                 return;
             }
 
-            int total = selectedObjects.Length;
-            int current = 0;
-
-            foreach (var selectedObject in selectedObjects)
+            if (droppedFolders.Count == 0)
             {
-                string path = AssetDatabase.GetAssetPath(selectedObject);
+                DisplayErrorMessage("No folders selected. Please drag and drop folders to process.");
+                return;
+            }
 
-                if (!IsValidPath(path))
+            foreach (var folderPath in droppedFolders)
+            {
+                if (!IsValidPath(folderPath))
                 {
-                    DisplayErrorMessage($"The selected path '{path}' is invalid.");
+                    DisplayErrorMessage($"The selected path '{folderPath}' is invalid.");
                     continue;
                 }
 
@@ -106,8 +176,7 @@ namespace Deadman
 
                 try
                 {
-                    string outputPath = CreateModComponentFile(path);
-
+                    string outputPath = CreateModComponentFile(folderPath);
                     message += $"<b><color=green>.ModComponent File Successfully created at {outputPath}!</color></b>\n";
                 }
                 catch (Exception ex)
@@ -116,7 +185,7 @@ namespace Deadman
                     message += $"<color=red>{ex}</color>\n";
                 }
 
-                UnityEngine.Debug.Log(message);
+                Debug.Log(message);
             }
         }
 
