@@ -2,41 +2,89 @@
 using System.IO;
 using System.IO.Compression;
 using UnityEditor;
+using UnityEngine;
 
 namespace Deadman
 {
-    public static class ModComponentUnityTool
+    public class ModComponentUnityTool : EditorWindow
     {
         public const string Version = "v1.1.0-DeveloperBuild";
+        private static string selectedOutputPath = "";
 
-        [MenuItem("Assets/Create .ModComponent File", false, 100)]
-        public static void ProcessModComponentFolder()
+        [MenuItem("MCUT/ModComponent Tool")]
+        public static void ShowWindow()
         {
-            string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            GetWindow<ModComponentUnityTool>("ModComponent Tool");
+        }
 
-            if (!IsValidPath(path))
+        void OnGUI()
+        {
+            GUILayout.Label("ModComponentUnityTool " + Version, EditorStyles.boldLabel);
+
+            if (GUILayout.Button("Create .ModComponent File"))
             {
-                DisplayErrorMessage("The selected path is invalid.");
+                ProcessModComponentFolders();
+            }
+
+            if (GUILayout.Button("Choose Output Folder"))
+            {
+                ChooseOutputFolder();
+            }
+
+            if (!string.IsNullOrEmpty(selectedOutputPath))
+            {
+                EditorGUILayout.LabelField("Output Path: ", selectedOutputPath);
+            }
+        }
+
+        private static void ChooseOutputFolder()
+        {
+            string path = EditorUtility.OpenFolderPanel("Choose Output Folder", "", "");
+            if (!string.IsNullOrEmpty(path))
+            {
+                selectedOutputPath = path;
+            }
+        }
+
+        public static void ProcessModComponentFolders()
+        {
+            UnityEngine.Object[] selectedObjects = Selection.objects;
+
+            if (selectedObjects.Length == 0)
+            {
+                DisplayErrorMessage("No folders selected.");
                 return;
             }
 
-            var message = $"<b>ModComponentUnityTool {Version}</b>\n";
+            int total = selectedObjects.Length;
+            int current = 0;
 
-            try
+            foreach (var selectedObject in selectedObjects)
             {
-                string outputPath = CreateModComponentFile(path);
+                string path = AssetDatabase.GetAssetPath(selectedObject);
 
-                message += $"<b><color=green>.ModComponent File Successfully Created at {outputPath}!</color></b>\n";
-                message += "Select this log for more info if needed.\n";
-            }
-            catch (Exception ex)
-            {
-                message += $"<b><color=red>Error:</color></b> {ex.Message}\n";
-                message += "Select this log for detailed error info.\n";
-                message += $"<color=red>{ex}</color>\n";
-            }
+                if (!IsValidPath(path))
+                {
+                    DisplayErrorMessage($"The selected path '{path}' is invalid.");
+                    continue;
+                }
 
-            UnityEngine.Debug.Log($"{message}");
+                var message = $"<b>ModComponentUnityTool {Version}</b>\n";
+
+                try
+                {
+                    string outputPath = CreateModComponentFile(path);
+
+                    message += $"<b><color=green>.ModComponent File Successfully created at {outputPath}!</color></b>\n";
+                }
+                catch (Exception ex)
+                {
+                    message += $"<b><color=red>Error:</color></b> {ex.Message}\n";
+                    message += $"<color=red>{ex}</color>\n";
+                }
+
+                UnityEngine.Debug.Log(message);
+            }
         }
 
         private static string CreateModComponentFile(string path)
@@ -48,9 +96,17 @@ namespace Deadman
                 throw new Exception($"{name} cannot be used as the name of an item pack. Place this folder into a new empty folder, and use that folder instead");
             }
 
-            string outputPath = $"{Path.GetDirectoryName(path)}/{name}.modcomponent";
+            string outputPath;
+            if (!string.IsNullOrEmpty(selectedOutputPath))
+            {
+                outputPath = Path.Combine(selectedOutputPath, $"{name}.modcomponent");
+            }
+            else
+            {
+                outputPath = Path.Combine(Path.GetDirectoryName(path), $"{name}.modcomponent");
+            }
 
-            ZipFile.CreateFromDirectory(path, outputPath, CompressionLevel.Optimal, false);
+            ZipFile.CreateFromDirectory(path, outputPath, System.IO.Compression.CompressionLevel.Optimal, false);
 
             return outputPath;
         }
