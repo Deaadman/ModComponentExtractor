@@ -20,12 +20,6 @@ The Mod Component Unity Tool (MCUT) is a Unity Editor package designed to enable
 
 ---
 
-## USEFUL LINKS:
-
-- [**Patch Notes**](https://github.com/Deaadman/ModComponentUnityTool/blob/release/Information/PatchNotes.md): Explore existing updates and stay informed about upcoming changes.
-
----
-
 ## INSTALLATION:
 
 1. Open the **Unity Editor (2021.3.16f1)**.
@@ -38,25 +32,15 @@ The Mod Component Unity Tool (MCUT) is a Unity Editor package designed to enable
 
 ## USAGE:
 
-1. In the **Unity Editor**, navigate to and select the folder that contains your sub-folders (e.g., `auto-mapped`, `blueprints`, `bundle`, `gear-spawns`, and `localizations`).
-2. Right-click on the selected folder and choose `Create .ModComponent File` from the context menu.
-3. Press `CTRL+R` to refresh the folders in the Unity Editor.
-4. A new `.modcomponent` file, named after your original folder, should now appear in the same directory!
+1. In the **Unity Editor**, navigate to the toolbar - there should be an new option labelled **MCUT**.
+2. Underneath that dropdown should be another option called **Tool Interface**.
+3. Once selected, it will bring up another inspector panel with various options.
+4. Drag and drop your folder(s) which contains all your sub-folders required to make a new `.modcomponent` file (e.g., `auto-mapped`, `blueprints`, `bundle`, `gear-spawns`, and `localizations`) to where it says 'Drag and Drop'.
+5. There is also a button located at the bottom which allows you to set where those `.modcomponent`'s are generated.
+6. After all those steps are done, select the 'Create .ModComponent(s)` and it will generate them to your selected path!
 
 ---
 
 ## CREDITS:
 
 - [**ds5678**](https://github.com/ds5678) - For the original [**ModComponentExtractor**](https://github.com/ds5678/ModComponentExtractor), which this tool is forked from.
-
----
-
-## LICENSING:
-This modification is licensed under the **MIT License.**
-
-Under the MIT License you have the right to:
-
-- Use this mod for any purpose, whether it's personal or commercial.
-- Modify the mod to suit your needs, and those modifications can be kept private or shared with others.
-- Distribute this mod in its original or modified form, either for free or as part of a paid product, without imposing any additional restrictions.
-- The only requirement is that the original copyright and license information must be included when you distribute the mod.

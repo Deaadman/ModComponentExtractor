@@ -9,7 +9,7 @@ namespace Deadman
 {
     public class ModComponentUnityTool : EditorWindow
     {
-        public const string Version = "v1.1.0-DeveloperBuild";
+        public const string Version = "v1.1.0 - Polished Productivity Update";
         private static string selectedOutputPath = "";
         private static System.IO.Compression.CompressionLevel selectedCompressionLevel = System.IO.Compression.CompressionLevel.Optimal;
         private static readonly List<string> droppedFolders = new();
@@ -73,6 +73,7 @@ namespace Deadman
             {
                 droppedFolders.Clear();
             }
+
             GUILayout.EndVertical();
 
             GUILayout.FlexibleSpace();
@@ -172,20 +173,16 @@ namespace Deadman
                     continue;
                 }
 
-                var message = $"<b>ModComponentUnityTool {Version}</b>\n";
-
                 try
                 {
                     string outputPath = CreateModComponentFile(folderPath);
-                    message += $"<b><color=green>.ModComponent File Successfully created at {outputPath}!</color></b>\n";
+                    EditorUtility.DisplayDialog("Success", "ModComponent File(s) Successfully Created!", "OK");
                 }
                 catch (Exception ex)
                 {
-                    message += $"<b><color=red>Error:</color></b> {ex.Message}\n";
-                    message += $"<color=red>{ex}</color>\n";
+                    Debug.Log(ex);
+                    DisplayErrorMessage($"Error: {ex.Message}");
                 }
-
-                Debug.Log(message);
             }
         }
 
@@ -206,6 +203,11 @@ namespace Deadman
             else
             {
                 outputPath = Path.Combine(Path.GetDirectoryName(path), $"{name}.modcomponent");
+            }
+
+            if (File.Exists(outputPath))
+            {
+                File.Delete(outputPath);
             }
 
             ZipFile.CreateFromDirectory(path, outputPath, selectedCompressionLevel, false);
