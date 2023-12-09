@@ -10,21 +10,46 @@ namespace Deadman
     {
         public const string Version = "v1.1.0-DeveloperBuild";
         private static string selectedOutputPath = "";
+        private static System.IO.Compression.CompressionLevel selectedCompressionLevel = System.IO.Compression.CompressionLevel.Optimal;
 
-        [MenuItem("MCUT/ModComponent Tool")]
+        [MenuItem("MCUT/Tool Interface")]
         public static void ShowWindow()
         {
-            GetWindow<ModComponentUnityTool>("ModComponent Tool");
+            GetWindow<ModComponentUnityTool>("MCUT Interface");
         }
 
         void OnGUI()
         {
-            GUILayout.Label("ModComponentUnityTool " + Version, EditorStyles.boldLabel);
-
-            if (GUILayout.Button("Create .ModComponent File"))
+            var titleStyle = new GUIStyle(EditorStyles.boldLabel)
             {
-                ProcessModComponentFolders();
-            }
+                alignment = TextAnchor.UpperCenter,
+                fontSize = 20,
+                fontStyle = FontStyle.Bold
+            };
+
+            var versionStyle = new GUIStyle(EditorStyles.label)
+            {
+                alignment = TextAnchor.UpperCenter,
+                fontSize = 16
+            };
+
+            var sectionTitleStyle = new GUIStyle(EditorStyles.boldLabel)
+            {
+                alignment = TextAnchor.UpperCenter,
+                fontSize = 14
+            };
+
+            GUILayout.Label("ModComponent Unity Tool", titleStyle);
+            GUILayout.Label(Version, versionStyle);
+
+            GUILayout.Space(10);
+
+            GUILayout.BeginVertical("Box");
+            GUILayout.Label("Configuration", sectionTitleStyle);
+
+            selectedCompressionLevel = (System.IO.Compression.CompressionLevel)EditorGUILayout.EnumPopup("Compression Level", selectedCompressionLevel);
+
+            GUILayout.Space(5);
 
             if (GUILayout.Button("Choose Output Folder"))
             {
@@ -33,7 +58,15 @@ namespace Deadman
 
             if (!string.IsNullOrEmpty(selectedOutputPath))
             {
-                EditorGUILayout.LabelField("Output Path: ", selectedOutputPath);
+                EditorGUILayout.LabelField("Selected Path: ", selectedOutputPath);
+            }
+            GUILayout.EndVertical();
+
+            GUILayout.FlexibleSpace();
+
+            if (GUILayout.Button("Create .ModComponent File(s)", GUILayout.Height(40)))
+            {
+                ProcessModComponentFolders();
             }
         }
 
@@ -106,7 +139,7 @@ namespace Deadman
                 outputPath = Path.Combine(Path.GetDirectoryName(path), $"{name}.modcomponent");
             }
 
-            ZipFile.CreateFromDirectory(path, outputPath, System.IO.Compression.CompressionLevel.Optimal, false);
+            ZipFile.CreateFromDirectory(path, outputPath, selectedCompressionLevel, false);
 
             return outputPath;
         }
