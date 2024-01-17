@@ -1,12 +1,12 @@
 {
-  "name": "com.deadman.modcomponentunitytool",
-  "version": "1.1.0",
-  "displayName": "Mod Component Unity Tool",
-  "description": "This Mod Component Unity Tool (MCUT) is a Unity Editor package designed to enable developers to effortlessly compile their .modcomponent files directly within the editor.",
+  "name": "com.deadman.modcomponent.sdk",
+  "version": "2.0.0",
+  "displayName": "ModComponent SDK",
+  "description": "Testing New Version.",
   "unity": "2021.3",
   "unityRelease": "16f1",
   "documentationUrl": "",
-  "changelogUrl": "https://github.com/Deaadman/ModComponentUnityTool/blob/release/Information/PatchNotes.md",
+  "changelogUrl": "",
   "licensesUrl": "",
   "author": {
     "name": "Deadman",
