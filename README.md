@@ -8,6 +8,16 @@
     <a href="https://github.com/Deaadman/ModComponentUnityTool/issues"><img src="https://img.shields.io/github/issues/Deaadman/ModComponentUnityTool?style=for-the-badge"></a>
 
 ---
+<h1 align="center">
+⚠️ This Project is Archived ⚠️
+</h1>
+
+> [!NOTE]
+> This project is no longer actively maintained. It has been archived and replaced by the [ModComponent SDK](https://github.com/your-new-project-url). 
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+---
 
 ## GENERAL INFORMATION:
 
